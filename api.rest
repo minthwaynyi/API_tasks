@@ -1,0 +1,36 @@
+### Get all data
+GET http://localhost:3000/data
+
+### Get single data by id
+GET http://localhost:3000/data/4
+
+### Create new data
+POST http://localhost:3000/data
+Content-Type: application/json
+
+{
+  "forename": "John",
+  "surname": "Lennon",
+  "email": "john@example.com"
+}
+
+### Update existing data (PUT)
+PUT http://localhost:3000/data/3
+Content-Type: application/json
+
+{
+  "forename": "Robert",
+  "surname": "Zimmerman",
+  "email": "rob@example.com"
+}
+
+### Delete data
+DELETE http://localhost:3000/data/3
+
+### Search for user by forename
+POST http://localhost:3000/data/search
+Content-Type: application/json
+
+{
+  "forename": "Robert"
+}
