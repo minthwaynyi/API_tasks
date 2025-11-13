@@ -1,0 +1,200 @@
+openapi: 3.0.3
+info:
+  title: Simple Data API
+  version: 1.0.0
+  description: API for managing a simple dataset (GET, POST, PUT, DELETE, search)
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+paths:
+
+  /data:
+    get:
+      tags:
+        - Data
+      summary: Get all data
+      description: Returns the full dataset
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Data'
+
+    post:
+      tags:
+        - Data
+      summary: Create new data
+      description: Adds a new data object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewData'
+      responses:
+        '201':
+          description: Created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'
+        '400':
+          description: Bad request (invalid input)
+        '415':
+          description: Unsupported Media Type
+
+  /data/{id}:
+    get:
+      tags:
+        - Data
+      summary: Get data by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Data found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'
+        '404':
+          description: Data not found
+
+    put:
+      tags:
+        - Data
+      summary: Update or create data by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewData'
+      responses:
+        '200':
+          description: Updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'
+        '201':
+          description: Created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'
+
+    delete:
+      tags:
+        - Data
+      summary: Delete data by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: integer
+        '404':
+          description: Data not found
+
+  /data/search:
+    post:
+      tags:
+        - Data
+      summary: Search data by forename
+      description: Returns all records matching a given forename
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Query'
+      responses:
+        '200':
+          description: Matching data found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Data'
+        '400':
+          description: Bad request (missing forename)
+        '404':
+          description: No matching data found
+        '415':
+          description: Unsupported Media Type
+
+components:
+  schemas:
+    Data:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        forename:
+          type: string
+          example: Roy
+        surname:
+          type: string
+          example: Fielding
+        email:
+          type: string
+          example: roy@example.com
+      required:
+        - id
+        - forename
+        - surname
+
+    NewData:
+      type: object
+      properties:
+        forename:
+          type: string
+          example: John
+        surname:
+          type: string
+          example: Lennon
+        email:
+          type: string
+          example: john@example.com
+      required:
+        - forename
+        - surname
+
+    Query:
+      type: object
+      properties:
+        forename:
+          type: string
+          example: Roy
+      required:
+        - forename
