@@ -1,17 +1,20 @@
 [
   {
     "id": 1,
-    "forename": "Roy",
-    "surname": "Fielding"
+    "forename": "John",
+    "surname": "Lennon",
+    "email": "john@example.com"
   },
   {
     "id": 2,
-    "forename": "Roy",
-    "surname": "Other"
+    "forename": "John",
+    "surname": "Lennon",
+    "email": "john@example.com"
   },
   {
     "id": 3,
-    "forename": "Alice",
-    "surname": "Smith"
+    "forename": "Robert",
+    "surname": "Zimmerman",
+    "email": "rob@example.com"
   }
 ]

@@ -3,11 +3,36 @@ info:
   title: Simple Data API
   version: 1.0.0
   description: API for managing a simple dataset (GET, POST, PUT, DELETE, search)
+
 servers:
   - url: http://localhost:3000
     description: Local server
 
 paths:
+
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: User login
+      description: Authenticates a user and returns a JWT access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid username or password
+        '415':
+          description: Unsupported Media Type
 
   /data:
     get:
@@ -154,6 +179,7 @@ paths:
 
 components:
   schemas:
+
     Data:
       type: object
       properties:
@@ -198,3 +224,32 @@ components:
           example: Roy
       required:
         - forename
+
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: admin
+        password:
+          type: string
+          example: admin123
+      required:
+        - username
+        - password
+
+    LoginResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          example: admin
+        access_token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: string
+          example: 3h
